@@ -41,6 +41,17 @@ def _pg():
 
 
 def _connect() -> sqlite3.Connection:
+    # Real bug found deploying to a fresh Contabo box (2026-08-26): the
+    # default ~/mycelium/mycelium.db assumes that directory already
+    # exists (true on the original phone, where other mycelium tooling
+    # had already created it) -- sqlite3.connect() does not create parent
+    # directories, so a genuinely fresh install failed on the first
+    # `mycelium init` with "unable to open database file". Every other
+    # package in this repo (mycelium-collector's config.py) already does
+    # this makedirs; core.py was the one place that didn't.
+    db_dir = os.path.dirname(DB_PATH)
+    if db_dir:
+        os.makedirs(db_dir, exist_ok=True)
     conn = sqlite3.connect(DB_PATH)
     conn.row_factory = sqlite3.Row
     conn.execute("PRAGMA journal_mode=WAL")
