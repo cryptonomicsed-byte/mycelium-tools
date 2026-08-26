@@ -1,0 +1,17 @@
+# picks-digest.timer — runs picks-digest.service every 15 minutes.
+#
+# Install:
+#   cp picks-digest.service picks-digest.timer ~/.config/systemd/user/
+#   systemctl --user daemon-reload
+#   systemctl --user enable --now picks-digest.timer
+
+[Unit]
+Description=Run picks-digest every 15 minutes
+
+[Timer]
+OnBootSec=2min
+OnUnitActiveSec=15min
+Persistent=true
+
+[Install]
+WantedBy=timers.target
