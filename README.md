@@ -156,3 +156,5 @@ mycelium-tools/
 │   └── picks-client/         (U5)
 └── systemd/                  (--user unit + timer templates, one per tool)
 ```
+
+> **Moved (P2-01):** these tools now live in [cryptonomicsed-byte/mycelium](https://github.com/cryptonomicsed-byte/mycelium) under `packages/` and `systemd/`. Old `mycelium_substrate` imports keep working through the shim there. Nothing here is removed.
